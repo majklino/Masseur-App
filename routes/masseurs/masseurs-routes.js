@@ -68,6 +68,28 @@ router.post('/login', async function (req, res) {
 
 });
 
+router.post('/logout', async function (req, res) {
+    const requestData = req.body;
+    let id = requestData.id;
+    let uuid = requestData.uuid;
+
+    logger.info('Request: Log out masseur');
+
+    await sqlService.connect();
+    let result = await sqlService.logoutMasseur(id, uuid);
+    await sqlService.disconnect();
+
+    if (result == false) {
+        logger.info('Masseur was NOT logged out - incorrect username and/or password');
+        res.json({ error: { status: 'INVALID_CREDENTIALS' } });
+    }
+    else {
+        logger.info('Masseur successfuly logged out');
+        res.json({ success: { status: 'MASSEUR_LOGGED_OUT' } });
+    }
+
+});
+
 router.post('/manage-skills', async function (req, res) {
     const requestData = req.body;
     let masseurId = requestData.masseurId;

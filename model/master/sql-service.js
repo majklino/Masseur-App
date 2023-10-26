@@ -54,6 +54,15 @@ class SqlService{
         return results
     }
 
+    async logoutMasseur(id, uuid){
+        let query = `
+        UPDATE masseurs SET online_uuid = NULL, last_online = NOW() 
+        WHERE id = ? AND online_uuid = ?`;
+        let params = [id, uuid];
+        let results = await this.handler.executeQuery(query, params);
+        return results.affectedRows >= 1;
+    }
+
     async manageSkills(masseurId, skillIds){
         let query = `
         DELETE FROM skills WHERE masseur_id = ?`;
