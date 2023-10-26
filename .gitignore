@@ -2,3 +2,5 @@
 package-lock.json
 **/dist
 .vscode
+*.log
+notes.txt
