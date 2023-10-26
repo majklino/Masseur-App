@@ -12,6 +12,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 //define routes
+defineRoutes = require('./routes/routes-handler');
+defineRoutes(app);
 
 //start the server
 let server = app.listen(PORT, () => {
