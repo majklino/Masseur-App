@@ -3,8 +3,8 @@ function defineRoutes(app) {
         res.send('hi :)');
     });
 
-    // app.use('/login', require('./login/login-routes'));
-    // app.use('/register', require('./register/register-routes'));
+    app.use('/res', require('./reservations/reservation-routes'));
+    app.use('/masseur', require('./masseurs/masseurs-routes'));
 }
 
 module.exports = defineRoutes;
