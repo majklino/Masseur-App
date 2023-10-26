@@ -41,14 +41,57 @@ class SqlService{
         UPDATE masseurs SET online_uuid = ? WHERE username = ? AND hash = ?`;
         let params = [uuid, username, hash];
         let results = await this.handler.executeQuery(query, params);
-        return results.affectedRows >= 1
+
+        if(results.affectedRows < 1){
+            return false;
+        }
+
+        query = `
+        SELECT id, firstname, lastname, online_uuid FROM masseurs 
+        WHERE username = ? AND hash = ? AND online_uuid = ?`;
+        params = [username, hash, uuid];
+        results = await this.handler.executeQuery(query, params);
+        return results
     }
 
-    async test(){
+    async manageSkills(masseurId, skillIds){
         let query = `
-        SHOW CREATE TABLE masseurs`;
-        let results = await this.handler.executeQuery(query, [])
-        return results;
+        DELETE FROM skills WHERE masseur_id = ?`;
+        let params = [masseurId];
+        await this.handler.executeQuery(query, params);
+
+        for (let i = 0; i < skillIds.length; i++) {
+            let skillId = skillIds[i];
+            query = `
+            INSERT INTO skills (masseur_id, massage_type_id) VALUES 
+            (?, ?)`;
+            params = [masseurId, skillId];
+            await this.handler.executeQuery(query, params);
+        }
+    }
+
+    async manageWorkHours(masseurId, workHours){
+        let query = `
+        DELETE FROM work_hours WHERE masseur_id = ?`;
+        let params = [masseurId];
+        await this.handler.executeQuery(query, params);
+
+        for (let i = 0; i < workHours.length; i++) {
+            let workHour = workHours[i];
+            query = `
+            INSERT INTO work_hours (masseur_id, day, time_from, time_to) VALUES 
+            (?, ?, ?, ?)`;
+            params = [masseurId, workHour['day'], workHour['timeFrom'], workHour['timeTo']];
+            await this.handler.executeQuery(query, params);
+        }
+    }
+
+    async isMasseurAdminAndAuthorized(id, uuid){
+        let query = `
+        SELECT id FROM masseurs WHERE id = ? AND online_uuid = ? AND is_admin = 1`;
+        let params = [id, uuid];
+        let results = await this.handler.executeQuery(query, params);
+        return results.length > 0
     }
 
     //let query = ``;
