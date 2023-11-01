@@ -146,4 +146,16 @@ router.post('/manage-work-hours', async function (req, res) {
     await sqlService.disconnect();
 });
 
+router.get('/get-user-data', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
+router.post('/delete-masseur', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
+router.post('/update-user-data', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
 module.exports = router;

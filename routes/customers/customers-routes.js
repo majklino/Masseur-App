@@ -32,4 +32,23 @@ router.post('/register-new', async function(req, res) {
     
 });
 
+router.post('/login', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
+router.post('/update-user-data', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
+router.post('/delete-user', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
+router.get('/get-user-data', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
+
+router.get('/get-history', async function(req, res) {
+    res.json({response: 'TODO not yet implemented!'});
+});
 module.exports = router;
